@@ -1,1 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+
 @import "tailwindcss";
+
+
+@theme {
+  --color-primary-50: #f5f7ff;
+  --color-primary-100: #ebf0fe;
+  --color-primary-200: #dce3fd;
+  --color-primary-300: #c3cdfb;
+  --color-primary-400: #a1b0f7;
+  --color-primary-500: #7c8df2;
+  --color-primary-600: #4f46e5; /* Main Indigo */
+  --color-primary-700: #3b5bdb; /* Slate Blue */
+  --color-primary-800: #324bb5;
+  --color-primary-900: #2b3e91;
+
+  --color-neutral-50: #f8f9fa;
+  --color-neutral-100: #f1f3f5;
+  --color-neutral-200: #e9ecef;
+  --color-neutral-300: #dee2e6;
+  --color-neutral-400: #ced4da;
+  --color-neutral-500: #adb5bd;
+  --color-neutral-600: #868e96;
+  --color-neutral-700: #495057;
+  --color-neutral-800: #343a40;
+  --color-neutral-900: #212529;
+  
+  --font-inter: "Inter", system-ui, -apple-system, sans-serif;
+  --font-devanagari: "Noto Sans Devanagari", system-ui, sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", "Noto Sans Arabic", system-ui, sans-serif;
+}
+
+/* Global Reset & Base */
+html, body {
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-900);
+  font-family: var(--font-inter);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Language font assignments */
+html[lang="hi"] body,
+html[lang="mr"] body {
+  font-family: var(--font-devanagari);
+}
+
+html[lang="ur"] body {
+  font-family: var(--font-urdu);
+  line-height: 2; /* Nastaliq needs a bit more line height for clarity */
+}
+
+/* Custom Scrollbar for premium feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-neutral-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-neutral-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-neutral-400);
+}
+
+/* Smooth active focus rings */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}

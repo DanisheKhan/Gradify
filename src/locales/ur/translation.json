@@ -1,0 +1,161 @@
+{
+  "common": {
+    "save": "محفوظ کریں",
+    "saving": "محفوظ ہو رہا ہے...",
+    "cancel": "منسوخ کریں",
+    "edit": "ترمیم کریں",
+    "delete": "حذف کریں",
+    "add": "شامل کریں",
+    "actions": "اقدامات",
+    "search": "تلاش کریں...",
+    "filter": "فلٹر",
+    "loading": "لوڈ ہو رہا ہے...",
+    "no_data": "کوئی ریکارڈ نہیں ملا",
+    "back": "واپس",
+    "print": "پرنٹ کریں",
+    "download_pdf": "پی ڈی ایف ڈاؤن لوڈ کریں",
+    "success": "کامیاب",
+    "error": "خرابی",
+    "confirm_delete": "کیا آپ واقعی اسے حذف کرنا چاہتے ہیں؟",
+    "yes": "ہاں",
+    "no": "نہیں",
+    "all": "تمام",
+    "class": "جماعت",
+    "section": "سیکشن",
+    "status": "حالت"
+  },
+  "nav": {
+    "dashboard": "ڈیش بورڈ",
+    "students": "طلبہ",
+    "exams": "امتحانات",
+    "subjects": "مضامین",
+    "marks": "نمبرات کا اندراج",
+    "results": "نتائج",
+    "settings": "ترتیبات",
+    "logout": "لاگ آؤٹ",
+    "login": "لاگ ان"
+  },
+  "auth": {
+    "title": "گریڈیفائی پورٹل",
+    "subtitle": "طالب علم کا نتیجہ اور مارک شیٹ پورٹل",
+    "email": "ای میل ایڈریس",
+    "password": "پاس ورڈ",
+    "sign_in": "لاگ ان کریں",
+    "signing_in": "لاگ ان ہو رہا ہے...",
+    "invalid_credentials": "غلط ای میل یا پاس ورڈ",
+    "auth_required": "اس صفحے تک رسائی کے لیے لاگ ان کریں",
+    "role_unauthorized": "آپ کو اس صفحے کو دیکھنے کی اجازت نہیں ہے"
+  },
+  "admin": {
+    "dashboard": {
+      "total_students": "کل طلبہ",
+      "total_exams": "کل امتحانات",
+      "pass_rate": "کامیابی کی شرح",
+      "quick_actions": "فوری اقدامات",
+      "recent_activity": "حالیہ سرگرمی",
+      "enter_marks": "نمبر درج کریں",
+      "add_student": "طالب علم شامل کریں",
+      "view_results": "نتائج دیکھیں"
+    },
+    "students": {
+      "title": "انتظامِ طلبہ",
+      "add_student": "نیا طالب علم شامل کریں",
+      "edit_student": "طالب علم کی تفصیلات میں ترمیم کریں",
+      "name": "مکمل نام",
+      "roll_no": "رول نمبر",
+      "dob": "تاریخِ پیدائش",
+      "parent": "والد کا نام",
+      "contact": "رابطہ نمبر",
+      "address": "پتہ",
+      "photo": "طالب علم کی تصویر",
+      "upload_photo": "تصویر اپ لوڈ کریں",
+      "student_added": "طالب علم کامیابی سے شامل کر لیا گیا",
+      "student_updated": "طالب علم کی تفصیلات کامیابی سے اپ ڈیٹ ہو گئیں",
+      "student_deleted": "طالب علم کامیابی سے حذف کر دیا گیا"
+    },
+    "exams": {
+      "title": "انتظامِ امتحانات",
+      "add_exam": "امتحان بنائیں",
+      "edit_exam": "امتحان کی تفصیلات میں ترمیم کریں",
+      "exam_name": "امتحان کا نام (مثلاً: سالانہ امتحان)",
+      "academic_year": "تعلیمی سال (مثلاً: 25-2024)",
+      "exam_date": "تاریخِ امتحان",
+      "exam_added": "امتحان کامیابی سے بنا لیا گیا",
+      "exam_updated": "امتحان کامیابی سے اپ ڈیٹ کر دیا گیا",
+      "exam_deleted": "امتحان کامیابی سے حذف کر دیا گیا"
+    },
+    "subjects": {
+      "title": "انتظامِ مضامین",
+      "add_subject": "مضمون شامل کریں",
+      "edit_subject": "مضمون میں ترمیم کریں",
+      "subject_name": "مضمون کا نام",
+      "max_marks": "کل نمبر",
+      "pass_marks": "پاسنگ نمبر",
+      "subject_added": "مضمون کامیابی سے شامل ہو گیا",
+      "subject_updated": "مضمون کامیابی سے اپ ڈیٹ ہو گیا",
+      "subject_deleted": "مضمون کامیابی سے حذف کر دیا گیا"
+    },
+    "marks": {
+      "title": "نمبرات کے اندراج کا جدول",
+      "select_exam_class": "نمبرات کا اندراج شروع کرنے کے لیے امتحان اور جماعت منتخب کریں",
+      "marks_saved": "تمام نمبر کامیابی سے محفوظ کر لیے گئے",
+      "invalid_marks": "حاصل کردہ نمبر کل نمبروں سے زیادہ نہیں ہو سکتے",
+      "auto_calc_note": "محفوظ کرنے کے بعد گریڈ، فیصد اور کامیابی/ناکامی کا خودکار حساب لگایا جائے گا۔"
+    },
+    "settings": {
+      "title": "پورٹل کی ترتیبات",
+      "school_info": "اسکول کی معلومات",
+      "school_name": "اسکول کا نام",
+      "school_address": "اسکول کا پتہ",
+      "school_logo": "اسکول کا لوگو",
+      "grading_scale": "گریڈنگ اسکیل کی ترتیبات",
+      "default_lang": "بنیادی زبان",
+      "settings_updated": "ترتیبات کامیابی سے اپ ڈیٹ ہو گئیں"
+    }
+  },
+  "student": {
+    "dashboard": {
+      "welcome": "خوش آمدید،",
+      "profile": "طالب علم کا پروفائل",
+      "latest_result": "تازہ ترین نتیجہ کا خلاصہ",
+      "quick_links": "فوری لنکس",
+      "view_all_results": "تمام نتائج دیکھیں",
+      "grade": "مجموعی گریڈ",
+      "percentage": "فیصد",
+      "status": "نتیجہ کی حالت"
+    },
+    "results": {
+      "title": "میرے امتحانی نتائج",
+      "subject": "مضمون",
+      "obtained": "حاصل کردہ نمبر",
+      "max": "کل نمبر",
+      "grade": "گریڈ",
+      "remarks": "کمنٹس",
+      "total": "مجموعہ",
+      "percentage": "فیصد",
+      "result": "نتیجہ",
+      "view_detail": "تفصیلات دیکھیں",
+      "print_slip": "نتیجہ کی پرچی پرنٹ کریں",
+      "print_booklet": "مارک شیٹ بکلیٹ پرنٹ کریں"
+    }
+  },
+  "grades": {
+    "pass": "کامیاب",
+    "fail": "ناکام",
+    "compartment": "کمپارٹمنٹ",
+    "outstanding": "شاندار",
+    "excellent": "بہت عمدہ",
+    "good": "اچھا",
+    "average": "اوسط",
+    "satisfactory": "تسلی بخش"
+  },
+  "print": {
+    "result_slip": "نتیجہ سلپ",
+    "marksheet_booklet": "مارک شیٹ بکلیٹ",
+    "academic_summary": "تعلیمی خلاصہ جدول",
+    "signature_principal": "دستخط پرنسپل",
+    "signature_teacher": "دستخط کلاس ٹیچر",
+    "cover_page": "ٹائٹل پیج",
+    "overall_performance": "مجموعی کارکردگی"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "common": {
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add",
+    "actions": "Actions",
+    "search": "Search...",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "no_data": "No data found",
+    "back": "Back",
+    "print": "Print",
+    "download_pdf": "Download PDF",
+    "success": "Success",
+    "error": "Error",
+    "confirm_delete": "Are you sure you want to delete this?",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "class": "Class",
+    "section": "Section",
+    "status": "Status"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "students": "Students",
+    "exams": "Exams",
+    "subjects": "Subjects",
+    "marks": "Marks Entry",
+    "results": "Results",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "auth": {
+    "title": "Gradify Portal",
+    "subtitle": "Student Result & Marksheet Portal",
+    "email": "Email Address",
+    "password": "Password",
+    "sign_in": "Sign In",
+    "signing_in": "Signing In...",
+    "invalid_credentials": "Invalid email or password",
+    "auth_required": "Please sign in to access this page",
+    "role_unauthorized": "You are not authorized to view this page"
+  },
+  "admin": {
+    "dashboard": {
+      "total_students": "Total Students",
+      "total_exams": "Total Exams",
+      "pass_rate": "Pass Rate",
+      "quick_actions": "Quick Actions",
+      "recent_activity": "Recent Activity",
+      "enter_marks": "Enter Marks",
+      "add_student": "Add Student",
+      "view_results": "View Results"
+    },
+    "students": {
+      "title": "Student Management",
+      "add_student": "Add New Student",
+      "edit_student": "Edit Student Details",
+      "name": "Full Name",
+      "roll_no": "Roll Number",
+      "dob": "Date of Birth",
+      "parent": "Parent/Guardian Name",
+      "contact": "Contact Number",
+      "address": "Address",
+      "photo": "Student Photo",
+      "upload_photo": "Upload Photo",
+      "student_added": "Student added successfully",
+      "student_updated": "Student updated successfully",
+      "student_deleted": "Student deleted successfully"
+    },
+    "exams": {
+      "title": "Exam Management",
+      "add_exam": "Create Exam",
+      "edit_exam": "Edit Exam Details",
+      "exam_name": "Exam Name (e.g. Final Exam)",
+      "academic_year": "Academic Year (e.g. 2024-25)",
+      "exam_date": "Exam Date",
+      "exam_added": "Exam created successfully",
+      "exam_updated": "Exam updated successfully",
+      "exam_deleted": "Exam deleted successfully"
+    },
+    "subjects": {
+      "title": "Subject Management",
+      "add_subject": "Add Subject",
+      "edit_subject": "Edit Subject",
+      "subject_name": "Subject Name",
+      "max_marks": "Maximum Marks",
+      "pass_marks": "Passing Marks",
+      "subject_added": "Subject added successfully",
+      "subject_updated": "Subject updated successfully",
+      "subject_deleted": "Subject deleted successfully"
+    },
+    "marks": {
+      "title": "Marks Entry Grid",
+      "select_exam_class": "Select Exam and Class to start marks entry",
+      "marks_saved": "All marks saved successfully",
+      "invalid_marks": "Marks obtained cannot exceed max marks",
+      "auto_calc_note": "Grades, percentages, and status will be auto-calculated upon saving."
+    },
+    "settings": {
+      "title": "Portal Settings",
+      "school_info": "School Information",
+      "school_name": "School Name",
+      "school_address": "School Address",
+      "school_logo": "School Logo",
+      "grading_scale": "Grading Scale Configuration",
+      "default_lang": "Default Language",
+      "settings_updated": "Settings updated successfully"
+    }
+  },
+  "student": {
+    "dashboard": {
+      "welcome": "Welcome back,",
+      "profile": "Student Profile",
+      "latest_result": "Latest Result Summary",
+      "quick_links": "Quick Links",
+      "view_all_results": "View All Results",
+      "grade": "Overall Grade",
+      "percentage": "Percentage",
+      "status": "Result Status"
+    },
+    "results": {
+      "title": "My Exam Results",
+      "subject": "Subject",
+      "obtained": "Obtained",
+      "max": "Max",
+      "grade": "Grade",
+      "remarks": "Remarks",
+      "total": "Total",
+      "percentage": "Percentage",
+      "result": "Result",
+      "view_detail": "View Details",
+      "print_slip": "Print Result Slip",
+      "print_booklet": "Print Marksheet Booklet"
+    }
+  },
+  "grades": {
+    "pass": "PASS",
+    "fail": "FAIL",
+    "compartment": "COMPARTMENT",
+    "outstanding": "Outstanding",
+    "excellent": "Excellent",
+    "good": "Good",
+    "average": "Average",
+    "satisfactory": "Satisfactory"
+  },
+  "print": {
+    "result_slip": "Result Slip",
+    "marksheet_booklet": "Marksheet Booklet",
+    "academic_summary": "Academic Summary Table",
+    "signature_principal": "Principal Signature",
+    "signature_teacher": "Class Teacher Signature",
+    "cover_page": "Cover Page",
+    "overall_performance": "Overall Performance"
+  }
+}

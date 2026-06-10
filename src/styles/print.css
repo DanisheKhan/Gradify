@@ -1,0 +1,85 @@
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Hide navigation, sidebar, scrollbars, action buttons, modals, toasts */
+  .no-print,
+  nav,
+  aside,
+  header,
+  footer,
+  button,
+  .toast,
+  .modal-overlay {
+    display: none !important;
+  }
+
+  /* Reset main layouts for full width */
+  main,
+  .content-wrapper,
+  .page-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    width: 100% !important;
+    box-shadow: none !important;
+  }
+
+  /* Standard page layout */
+  @page {
+    size: A4;
+    margin: 15mm 10mm 15mm 10mm;
+  }
+
+  /* Force background colors/images to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Page breaks for booklets */
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .avoid-page-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Table style override for print */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid #d1d5db !important;
+    padding: 8px !important;
+    font-size: 10pt;
+  }
+
+  th {
+    background-color: #f3f4f6 !important;
+    font-weight: bold;
+  }
+
+  /* Cover page styling for printing */
+  .print-cover {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-after: always;
+  }
+}
