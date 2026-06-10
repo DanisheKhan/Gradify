@@ -8,6 +8,7 @@ import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
 import Badge from '../../components/ui/Badge';
 import Table, { TableRow, TableCell } from '../../components/ui/Table';
+import Select from '../../components/ui/Select';
 import { useStudents } from '../../hooks/useStudents';
 import { useMarks } from '../../hooks/useMarks';
 import { useExams } from '../../hooks/useExams';
@@ -28,6 +29,7 @@ export const StudentResultDetail = () => {
 
   const examIdParam = searchParams.get('examId');
   const autoPrint = searchParams.get('print') === 'true';
+  const autoDownload = searchParams.get('download') === 'true';
   const showBookletMode = searchParams.get('booklet') === 'true';
 
   const { getStudent } = useStudents();
@@ -49,6 +51,7 @@ export const StudentResultDetail = () => {
   // Print References
   const printSlipRef = useRef(null);
   const printBookletRef = useRef(null);
+  const hasTriggeredRef = useRef(false);
 
   // Load configuration details
   useEffect(() => {
@@ -89,14 +92,24 @@ export const StudentResultDetail = () => {
     loadDetails();
   }, [id, examIdParam, getStudent, getSchool, getMarksByStudent, getExams, getSubjects]);
 
-  // Handle auto-print after rendering complete
+  // Handle auto-print or auto-download after rendering complete
   useEffect(() => {
-    if (!loading && autoPrint && selectedExam) {
-      setTimeout(() => {
-        handlePrintSlip();
-      }, 500);
+    if (!loading && selectedExam) {
+      if (hasTriggeredRef.current) return;
+
+      if (autoPrint) {
+        hasTriggeredRef.current = true;
+        setTimeout(() => {
+          handlePrintSlip();
+        }, 500);
+      } else if (autoDownload) {
+        hasTriggeredRef.current = true;
+        setTimeout(() => {
+          handleDownloadSlipPDF();
+        }, 500);
+      }
     }
-  }, [loading, autoPrint, selectedExam]);
+  }, [loading, autoPrint, autoDownload, selectedExam]);
 
   // react-to-print hooks
   const handlePrintSlip = useReactToPrint({

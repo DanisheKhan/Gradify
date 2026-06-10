@@ -13,7 +13,7 @@ import { useStudents } from '../../hooks/useStudents';
 import { useSubjects } from '../../hooks/useSubjects';
 import { useMarks } from '../../hooks/useMarks';
 import { calculateResultSummary } from '../../utils/gradeCalc';
-import { Eye, GraduationCap, Printer } from 'lucide-react';
+import { Eye, GraduationCap, Printer, Download } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 export const Results = () => {
@@ -144,7 +144,7 @@ export const Results = () => {
                     variant="ghost"
                     size="sm"
                     icon={<Eye className="w-4 h-4 text-neutral-500" />}
-                    onClick={() => navigate(`/student/results/${res.student.id}?examId=${selectedExamId}`)}
+                    onClick={() => navigate(`/admin/results/${res.student.id}?examId=${selectedExamId}`)}
                   >
                     View Slip
                   </Button>
@@ -152,9 +152,17 @@ export const Results = () => {
                     variant="ghost"
                     size="sm"
                     icon={<Printer className="w-4 h-4 text-primary-600" />}
-                    onClick={() => navigate(`/student/results/${res.student.id}?examId=${selectedExamId}&print=true`)}
+                    onClick={() => navigate(`/admin/results/${res.student.id}?examId=${selectedExamId}&print=true`)}
                   >
                     Print
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    icon={<Download className="w-4 h-4 text-emerald-600" />}
+                    onClick={() => navigate(`/admin/results/${res.student.id}?examId=${selectedExamId}&download=true`)}
+                  >
+                    PDF
                   </Button>
                 </div>
               </TableCell>
