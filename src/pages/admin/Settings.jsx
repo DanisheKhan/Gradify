@@ -7,7 +7,7 @@ import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
 import Spinner from '../../components/ui/Spinner';
 import Badge from '../../components/ui/Badge';
-import { useSchool } from '../../hooks/useSchool';
+import { useSchool, getCachedSchool } from '../../hooks/useSchool';
 import { useLanguage } from '../../context/LanguageContext';
 import { DEFAULT_GRADING_SCALE } from '../../utils/gradeCalc';
 import { Save, School, Upload, Sparkles, Languages, Settings as SettingsIcon } from 'lucide-react';
@@ -19,10 +19,13 @@ export const Settings = () => {
   
   const { getSchool, updateSchool, uploadLogo, loading } = useSchool();
   
-  const [schoolData, setSchoolData] = useState({
-    name: '',
-    address: '',
-    logo_url: ''
+  const [schoolData, setSchoolData] = useState(() => {
+    const cached = getCachedSchool();
+    return {
+      name: cached?.name || '',
+      address: cached?.address || '',
+      logo_url: cached?.logo_url || ''
+    };
   });
 
   const [saving, setSaving] = useState(false);

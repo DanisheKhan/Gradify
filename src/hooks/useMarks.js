@@ -28,6 +28,10 @@ const SEED_MARKS = [
   { id: 'm-3-5', student_id: 'student-2', exam_id: 'exam-1', subject_id: 'sub-5', marks_obtained: 50, grade: 'C', remarks: 'Average' }
 ];
 
+// Module-level caches to prevent reloading flashes when switching tabs
+let cachedMarksByExamClass = {};
+let cachedMarksByStudent = {};
+
 export const useMarks = () => {
   const { userProfile } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -43,29 +47,37 @@ export const useMarks = () => {
   }, []);
 
   const getMarksByExamAndClass = useCallback(async (examId, className) => {
+    const cacheKey = `${examId}-${className}`;
+    if (cachedMarksByExamClass[cacheKey]) {
+      return { data: cachedMarksByExamClass[cacheKey], error: null };
+    }
+
     setLoading(true);
     setError(null);
     try {
+      let data;
       if (supabase.isMock) {
         const marks = getMockMarks();
         // Return only marks matching the examId
         const filtered = marks.filter((m) => m.exam_id === examId);
-        setLoading(false);
-        return { data: filtered, error: null };
+        data = filtered;
+      } else {
+        // Query database
+        const { data: dbData, error } = await supabase
+          .from('marks')
+          .select(`
+            *,
+            students!inner(id, name, roll_number, class, school_id)
+          `)
+          .eq('exam_id', examId)
+          .eq('students.class', className)
+          .eq('students.school_id', userProfile?.school_id);
+        
+        if (error) throw error;
+        data = dbData;
       }
 
-      // Query database
-      const { data, error } = await supabase
-        .from('marks')
-        .select(`
-          *,
-          students!inner(id, name, roll_number, class, school_id)
-        `)
-        .eq('exam_id', examId)
-        .eq('students.class', className)
-        .eq('students.school_id', userProfile?.school_id);
-      
-      if (error) throw error;
+      cachedMarksByExamClass[cacheKey] = data;
       setLoading(false);
       return { data, error: null };
     } catch (err) {
@@ -79,6 +91,10 @@ export const useMarks = () => {
     setLoading(true);
     setError(null);
     try {
+      // Invalidate caches
+      cachedMarksByExamClass = {};
+      cachedMarksByStudent = {};
+
       if (supabase.isMock) {
         const currentMarks = getMockMarks();
         const updatedMarks = [...currentMarks];
@@ -134,22 +150,29 @@ export const useMarks = () => {
   }, [getMockMarks]);
 
   const getMarksByStudent = useCallback(async (studentId) => {
+    if (cachedMarksByStudent[studentId]) {
+      return { data: cachedMarksByStudent[studentId], error: null };
+    }
+
     setLoading(true);
     setError(null);
     try {
+      let data;
       if (supabase.isMock) {
         const marks = getMockMarks();
         const filtered = marks.filter((m) => m.student_id === studentId);
-        setLoading(false);
-        return { data: filtered, error: null };
+        data = filtered;
+      } else {
+        const { data: dbData, error } = await supabase
+          .from('marks')
+          .select('*')
+          .eq('student_id', studentId);
+        
+        if (error) throw error;
+        data = dbData;
       }
 
-      const { data, error } = await supabase
-        .from('marks')
-        .select('*')
-        .eq('student_id', studentId);
-      
-      if (error) throw error;
+      cachedMarksByStudent[studentId] = data;
       setLoading(false);
       return { data, error: null };
     } catch (err) {
@@ -162,4 +185,6 @@ export const useMarks = () => {
   return { loading, error, getMarksByExamAndClass, upsertMarks, getMarksByStudent };
 };
 
+export const getCachedMarksByExamClass = (examId, className) => cachedMarksByExamClass[`${examId}-${className}`];
+export const getCachedMarksByStudent = (studentId) => cachedMarksByStudent[studentId];
 export default useMarks;

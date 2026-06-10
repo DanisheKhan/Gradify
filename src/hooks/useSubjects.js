@@ -12,6 +12,9 @@ const SEED_SUBJECTS = [
   { id: 'sub-5', name: 'Social Studies', class: '10', max_marks: 100, pass_marks: 35, school_id: 'mock-school-id-123' }
 ];
 
+// Module-level cache to prevent reloading flashes when switching tabs
+let cachedSubjects = null;
+
 export const useSubjects = () => {
   const { userProfile } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -27,29 +30,39 @@ export const useSubjects = () => {
   }, []);
 
   const getSubjects = useCallback(async (filters = {}) => {
+    // If we have cached subjects and are loading all subjects, return cache instantly
+    if (cachedSubjects && !filters.class) {
+      return { data: cachedSubjects, error: null };
+    }
+
     setLoading(true);
     setError(null);
     try {
+      let data;
       if (supabase.isMock) {
         let subjects = getMockSubjects();
         if (filters.class) {
           subjects = subjects.filter((s) => s.class === filters.class);
         }
-        setLoading(false);
-        return { data: subjects, error: null };
+        data = subjects;
+      } else {
+        let query = supabase
+          .from('subjects')
+          .select('*')
+          .eq('school_id', userProfile?.school_id);
+
+        if (filters.class) {
+          query = query.eq('class', filters.class);
+        }
+
+        const { data: dbData, error } = await query.order('name', { ascending: true });
+        if (error) throw error;
+        data = dbData;
       }
 
-      let query = supabase
-        .from('subjects')
-        .select('*')
-        .eq('school_id', userProfile?.school_id);
-
-      if (filters.class) {
-        query = query.eq('class', filters.class);
+      if (!filters.class) {
+        cachedSubjects = data;
       }
-
-      const { data, error } = await query.order('name', { ascending: true });
-      if (error) throw error;
       setLoading(false);
       return { data, error: null };
     } catch (err) {
@@ -63,6 +76,7 @@ export const useSubjects = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedSubjects = null; // Invalidate cache
       if (supabase.isMock) {
         const subjects = getMockSubjects();
         const newSubject = {
@@ -97,6 +111,7 @@ export const useSubjects = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedSubjects = null; // Invalidate cache
       if (supabase.isMock) {
         const subjects = getMockSubjects();
         const idx = subjects.findIndex((s) => s.id === id);
@@ -131,6 +146,7 @@ export const useSubjects = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedSubjects = null; // Invalidate cache
       if (supabase.isMock) {
         const subjects = getMockSubjects();
         const filtered = subjects.filter((s) => s.id !== id);
@@ -158,4 +174,5 @@ export const useSubjects = () => {
   return { loading, error, getSubjects, createSubject, updateSubject, deleteSubject };
 };
 
+export const getCachedSubjects = () => cachedSubjects;
 export default useSubjects;

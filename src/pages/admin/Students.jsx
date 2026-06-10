@@ -9,7 +9,7 @@ import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
 import Modal from '../../components/ui/Modal';
 import Spinner from '../../components/ui/Spinner';
-import { useStudents } from '../../hooks/useStudents';
+import { useStudents, getCachedStudents } from '../../hooks/useStudents';
 import { Search, UserPlus, Edit2, Trash2, Eye, Calendar, User, Phone, MapPin } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
@@ -18,7 +18,7 @@ export const Students = () => {
   const navigate = useNavigate();
   const { loading, getStudents, createStudent, deleteStudent } = useStudents();
 
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(() => getCachedStudents() || []);
   const [searchTerm, setSearchTerm] = useState('');
   const [classFilter, setClassFilter] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);

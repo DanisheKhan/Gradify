@@ -12,6 +12,9 @@ const DEFAULT_SCHOOL = {
   created_at: new Date().toISOString()
 };
 
+// Module-level cache to prevent reloading flashes when switching tabs
+let cachedSchool = null;
+
 export const useSchool = () => {
   const { userProfile } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -27,26 +30,32 @@ export const useSchool = () => {
   }, []);
 
   const getSchool = useCallback(async () => {
+    if (cachedSchool) {
+      return { data: cachedSchool, error: null };
+    }
+
     setLoading(true);
     setError(null);
     try {
+      let data;
       if (supabase.isMock) {
-        const school = getMockSchool();
-        setLoading(false);
-        return { data: school, error: null };
-      }
+        data = getMockSchool();
+      } else {
+        if (!userProfile?.school_id) {
+          throw new Error('School ID not found in user session.');
+        }
 
-      if (!userProfile?.school_id) {
-        throw new Error('School ID not found in user session.');
+        const { data: dbData, error } = await supabase
+          .from('schools')
+          .select('*')
+          .eq('id', userProfile.school_id)
+          .single();
+        
+        if (error) throw error;
+        data = dbData;
       }
-
-      const { data, error } = await supabase
-        .from('schools')
-        .select('*')
-        .eq('id', userProfile.school_id)
-        .single();
       
-      if (error) throw error;
+      cachedSchool = data;
       setLoading(false);
       return { data, error: null };
     } catch (err) {
@@ -60,6 +69,7 @@ export const useSchool = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedSchool = null; // Invalidate cache
       if (supabase.isMock) {
         const school = getMockSchool();
         const updated = { ...school, ...schoolData };
@@ -134,4 +144,5 @@ export const useSchool = () => {
   return { loading, error, getSchool, updateSchool, uploadLogo };
 };
 
+export const getCachedSchool = () => cachedSchool;
 export default useSchool;

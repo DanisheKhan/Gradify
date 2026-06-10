@@ -8,10 +8,10 @@ import Select from '../../components/ui/Select';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
 import Badge from '../../components/ui/Badge';
-import { useExams } from '../../hooks/useExams';
-import { useStudents } from '../../hooks/useStudents';
-import { useSubjects } from '../../hooks/useSubjects';
-import { useMarks } from '../../hooks/useMarks';
+import { useExams, getCachedExams } from '../../hooks/useExams';
+import { useStudents, getCachedStudents } from '../../hooks/useStudents';
+import { useSubjects, getCachedSubjects } from '../../hooks/useSubjects';
+import { useMarks, getCachedMarksByExamClass } from '../../hooks/useMarks';
 import { calculateResultSummary } from '../../utils/gradeCalc';
 import { Eye, GraduationCap, Printer, Download } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -25,13 +25,25 @@ export const Results = () => {
   const { getSubjects } = useSubjects();
   const { getMarksByExamAndClass, loading: marksLoading } = useMarks();
 
-  const [exams, setExams] = useState([]);
-  const [selectedExamId, setSelectedExamId] = useState('');
+  const [exams, setExams] = useState(() => getCachedExams() || []);
+  const [selectedExamId, setSelectedExamId] = useState(() => {
+    const cached = getCachedExams();
+    return cached && cached.length > 0 ? cached[0].id : '';
+  });
   const [selectedClass, setSelectedClass] = useState('10');
 
-  const [students, setStudents] = useState([]);
-  const [subjects, setSubjects] = useState([]);
-  const [marksList, setMarksList] = useState([]);
+  const [students, setStudents] = useState(() => {
+    const cached = getCachedStudents();
+    return cached ? cached.filter(s => s.class === '10') : [];
+  });
+  const [subjects, setSubjects] = useState(() => {
+    const cached = getCachedSubjects();
+    return cached ? cached.filter(s => s.class === '10') : [];
+  });
+  const [marksList, setMarksList] = useState(() => {
+    const cached = getCachedMarksByExamClass(selectedExamId, '10');
+    return cached || [];
+  });
   const [loading, setLoading] = useState(false);
 
   // Load Exam selections
@@ -40,7 +52,7 @@ export const Results = () => {
       const { data } = await getExams();
       if (data) {
         setExams(data);
-        if (data.length > 0) setSelectedExamId(data[0].id);
+        if (data.length > 0 && !selectedExamId) setSelectedExamId(data[0].id);
       }
     };
     loadExams();
@@ -51,7 +63,12 @@ export const Results = () => {
     if (!selectedExamId || !selectedClass) return;
 
     const loadData = async () => {
-      setLoading(true);
+      const cachedM = getCachedMarksByExamClass(selectedExamId, selectedClass);
+      const cachedS = getCachedStudents();
+      const cachedSub = getCachedSubjects();
+      if (!cachedM || !cachedS || !cachedSub) {
+        setLoading(true);
+      }
       try {
         const { data: classStudents } = await getStudents({ class: selectedClass });
         const { data: classSubjects } = await getSubjects({ class: selectedClass });

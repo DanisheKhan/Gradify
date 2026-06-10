@@ -79,6 +79,9 @@ const SEED_STUDENTS = [
   { id: 'student-1212', name: 'R Venkataraman', roll_number: 'ROLL-1212', class: '12', section: 'C', photo_url: '', date_of_birth: '2008-12-04', parent_name: 'Ramaswami Iyer', contact_number: '9876543412', address: 'Tanjore, Tamil Nadu', created_at: new Date().toISOString(), school_id: 'mock-school-id-123' }
 ];
 
+// Module-level cache to prevent reloading flashes when switching tabs
+let cachedStudents = null;
+
 export const useStudents = () => {
   const { userProfile } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -94,9 +97,15 @@ export const useStudents = () => {
   }, []);
 
   const getStudents = useCallback(async (filters = {}) => {
+    // If we have cached students and are not class/search filtering, return cache instantly
+    if (cachedStudents && !filters.class && !filters.search) {
+      return { data: cachedStudents, error: null };
+    }
+
     setLoading(true);
     setError(null);
     try {
+      let data;
       if (supabase.isMock) {
         let students = getMockStudents();
         if (filters.class) {
@@ -108,24 +117,28 @@ export const useStudents = () => {
             (s) => s.name.toLowerCase().includes(searchLower) || s.roll_number.includes(searchLower)
           );
         }
-        setLoading(false);
-        return { data: students, error: null };
+        data = students;
+      } else {
+        let query = supabase
+          .from('students')
+          .select('*')
+          .eq('school_id', userProfile?.school_id);
+
+        if (filters.class) {
+          query = query.eq('class', filters.class);
+        }
+        if (filters.search) {
+          query = query.or(`name.ilike.%${filters.search}%,roll_number.ilike.%${filters.search}%`);
+        }
+
+        const { data: dbData, error } = await query.order('roll_number', { ascending: true });
+        if (error) throw error;
+        data = dbData;
       }
 
-      let query = supabase
-        .from('students')
-        .select('*')
-        .eq('school_id', userProfile?.school_id);
-
-      if (filters.class) {
-        query = query.eq('class', filters.class);
+      if (!filters.class && !filters.search) {
+        cachedStudents = data;
       }
-      if (filters.search) {
-        query = query.or(`name.ilike.%${filters.search}%,roll_number.ilike.%${filters.search}%`);
-      }
-
-      const { data, error } = await query.order('roll_number', { ascending: true });
-      if (error) throw error;
       setLoading(false);
       return { data, error: null };
     } catch (err) {
@@ -167,6 +180,7 @@ export const useStudents = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedStudents = null; // Invalidate cache
       if (supabase.isMock) {
         const students = getMockStudents();
         const newStudent = {
@@ -210,6 +224,7 @@ export const useStudents = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedStudents = null; // Invalidate cache
       if (supabase.isMock) {
         const students = getMockStudents();
         const idx = students.findIndex((s) => s.id === id);
@@ -244,6 +259,7 @@ export const useStudents = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedStudents = null; // Invalidate cache
       if (supabase.isMock) {
         const students = getMockStudents();
         const filtered = students.filter((s) => s.id !== id);
@@ -271,4 +287,5 @@ export const useStudents = () => {
   return { loading, error, getStudents, getStudent, createStudent, updateStudent, deleteStudent };
 };
 
+export const getCachedStudents = () => cachedStudents;
 export default useStudents;

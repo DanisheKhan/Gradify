@@ -5,10 +5,10 @@ import PageWrapper from '../../components/layout/PageWrapper';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import Spinner from '../../components/ui/Spinner';
-import { useStudents } from '../../hooks/useStudents';
-import { useExams } from '../../hooks/useExams';
+import { useStudents, getCachedStudents } from '../../hooks/useStudents';
+import { useExams, getCachedExams } from '../../hooks/useExams';
 import { useMarks } from '../../hooks/useMarks';
-import { useSubjects } from '../../hooks/useSubjects';
+import { useSubjects, getCachedSubjects } from '../../hooks/useSubjects';
 import { calculateResultSummary } from '../../utils/gradeCalc';
 import { Users, ClipboardList, TrendingUp, Sparkles, BookOpen, GraduationCap } from 'lucide-react';
 import {
@@ -33,19 +33,37 @@ export const Dashboard = () => {
   const { getMarksByExamAndClass } = useMarks();
   const { getSubjects } = useSubjects();
 
-  const [stats, setStats] = useState({
-    totalStudents: 0,
-    totalExams: 0,
-    totalSubjects: 0,
-    passRate: 0,
+  const [stats, setStats] = useState(() => {
+    const cachedS = getCachedStudents();
+    const cachedE = getCachedExams();
+    const cachedSub = getCachedSubjects();
+    if (cachedS && cachedE && cachedSub) {
+      return {
+        totalStudents: cachedS.length,
+        totalExams: cachedE.length,
+        totalSubjects: cachedSub.length,
+        passRate: 80,
+      };
+    }
+    return {
+      totalStudents: 0,
+      totalExams: 0,
+      totalSubjects: 0,
+      passRate: 0,
+    };
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    return !getCachedStudents() || !getCachedExams() || !getCachedSubjects();
+  });
   const [chartData, setChartData] = useState([]);
   const [gradeData, setGradeData] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true);
+      const hasCache = getCachedStudents() && getCachedExams() && getCachedSubjects();
+      if (!hasCache) {
+        setLoading(true);
+      }
       try {
         const { data: students } = await getStudents();
         const { data: exams } = await getExams();

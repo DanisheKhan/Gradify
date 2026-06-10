@@ -25,6 +25,9 @@ const SEED_EXAMS = [
   }
 ];
 
+// Module-level cache to prevent reloading flashes when switching tabs
+let cachedExams = null;
+
 export const useExams = () => {
   const { userProfile } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -40,29 +43,39 @@ export const useExams = () => {
   }, []);
 
   const getExams = useCallback(async (filters = {}) => {
+    // If we have cached exams and are loading all exams, return cache instantly
+    if (cachedExams && !filters.class) {
+      return { data: cachedExams, error: null };
+    }
+
     setLoading(true);
     setError(null);
     try {
+      let data;
       if (supabase.isMock) {
         let exams = getMockExams();
         if (filters.class) {
           exams = exams.filter((e) => e.class === filters.class);
         }
-        setLoading(false);
-        return { data: exams, error: null };
+        data = exams;
+      } else {
+        let query = supabase
+          .from('exams')
+          .select('*')
+          .eq('school_id', userProfile?.school_id);
+
+        if (filters.class) {
+          query = query.eq('class', filters.class);
+        }
+
+        const { data: dbData, error } = await query.order('exam_date', { ascending: false });
+        if (error) throw error;
+        data = dbData;
       }
 
-      let query = supabase
-        .from('exams')
-        .select('*')
-        .eq('school_id', userProfile?.school_id);
-
-      if (filters.class) {
-        query = query.eq('class', filters.class);
+      if (!filters.class) {
+        cachedExams = data;
       }
-
-      const { data, error } = await query.order('exam_date', { ascending: false });
-      if (error) throw error;
       setLoading(false);
       return { data, error: null };
     } catch (err) {
@@ -76,6 +89,7 @@ export const useExams = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedExams = null; // Invalidate cache
       if (supabase.isMock) {
         const exams = getMockExams();
         const newExam = {
@@ -110,6 +124,7 @@ export const useExams = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedExams = null; // Invalidate cache
       if (supabase.isMock) {
         const exams = getMockExams();
         const idx = exams.findIndex((e) => e.id === id);
@@ -144,6 +159,7 @@ export const useExams = () => {
     setLoading(true);
     setError(null);
     try {
+      cachedExams = null; // Invalidate cache
       if (supabase.isMock) {
         const exams = getMockExams();
         const filtered = exams.filter((e) => e.id !== id);
@@ -171,4 +187,5 @@ export const useExams = () => {
   return { loading, error, getExams, createExam, updateExam, deleteExam };
 };
 
+export const getCachedExams = () => cachedExams;
 export default useExams;
