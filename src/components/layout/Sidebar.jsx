@@ -10,7 +10,6 @@ import {
   GraduationCap,
   Settings,
   X,
-  School
 } from 'lucide-react';
 
 export const Sidebar = ({ isOpen, onClose }) => {
@@ -18,53 +17,57 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
   const links = [
     { to: '/admin/dashboard', label: t('nav.dashboard'), icon: LayoutDashboard },
-    { to: '/admin/students', label: t('nav.students'), icon: Users },
-    { to: '/admin/exams', label: t('nav.exams'), icon: ClipboardList },
-    { to: '/admin/subjects', label: t('nav.subjects'), icon: BookOpen },
-    { to: '/admin/marks', label: t('nav.marks'), icon: FileSpreadsheet },
-    { to: '/admin/results', label: t('nav.results'), icon: GraduationCap },
-    { to: '/admin/settings', label: t('nav.settings'), icon: Settings },
+    { to: '/admin/students',  label: t('nav.students'),  icon: Users },
+    { to: '/admin/exams',     label: t('nav.exams'),     icon: ClipboardList },
+    { to: '/admin/subjects',  label: t('nav.subjects'),  icon: BookOpen },
+    { to: '/admin/marks',     label: t('nav.marks'),     icon: FileSpreadsheet },
+    { to: '/admin/results',   label: t('nav.results'),   icon: GraduationCap },
+    { to: '/admin/settings',  label: t('nav.settings'),  icon: Settings },
   ];
 
-  const activeClass = 'bg-primary-50 text-primary-600 font-semibold border-e-3 border-primary-600';
-  const inactiveClass = 'text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800 border-e-3 border-transparent';
-
   const sidebarContent = (
-    <div className="h-full flex flex-col bg-white w-64 border-r border-neutral-200 select-none">
-      {/* Header */}
-      <div className="h-16 flex items-center justify-between px-5 border-b border-neutral-200 lg:justify-center">
-        <div className="flex items-center gap-2">
-          <GraduationCap className="w-6 h-6 text-primary-600" />
-          <span className="font-extrabold text-neutral-800 text-lg tracking-tight">
+    <div className="h-full flex flex-col bg-white w-60 border-r border-neutral-200 select-none">
+      {/* Logo */}
+      <div className="h-14 flex items-center justify-between px-5 border-b border-neutral-200 lg:justify-start shrink-0">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-primary-600 flex items-center justify-center">
+            <GraduationCap className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-bold text-neutral-900 text-[15px] tracking-tight">
             Gradify
           </span>
         </div>
         <button
           onClick={onClose}
-          className="p-1.5 rounded-lg hover:bg-neutral-100 lg:hidden text-neutral-500 focus:outline-hidden"
+          className="p-1 rounded-md hover:bg-neutral-100 lg:hidden text-neutral-400 transition-colors focus:outline-hidden ml-auto"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Nav links */}
-      <nav className="flex-1 py-4 space-y-1 overflow-y-auto">
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
         {links.map((link) => {
           const Icon = link.icon;
           return (
             <NavLink
               key={link.to}
               to={link.to}
-              onClick={() => {
-                if (window.innerWidth < 1024) onClose();
-              }}
+              onClick={() => { if (window.innerWidth < 1024) onClose(); }}
               className={({ isActive }) => `
-                flex items-center gap-3 px-6 py-3 text-sm transition-all duration-150
-                ${isActive ? activeClass : inactiveClass}
+                flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150
+                ${isActive
+                  ? 'bg-primary-50 text-primary-700'
+                  : 'text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800'
+                }
               `}
             >
-              <Icon className="w-4.5 h-4.5" />
-              <span>{link.label}</span>
+              {({ isActive }) => (
+                <>
+                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-primary-600' : ''}`} />
+                  <span>{link.label}</span>
+                </>
+              )}
             </NavLink>
           );
         })}
@@ -78,14 +81,14 @@ export const Sidebar = ({ isOpen, onClose }) => {
       {isOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 bg-neutral-900/30 backdrop-blur-xs z-40 lg:hidden no-print"
+          className="fixed inset-0 bg-neutral-900/20 backdrop-blur-sm z-40 lg:hidden no-print"
         />
       )}
 
       {/* Sidebar Container */}
       <aside
         className={`
-          fixed top-0 bottom-0 start-0 z-40 transition-transform duration-350 transform lg:translate-x-0 lg:static lg:z-auto no-print
+          fixed top-0 bottom-0 start-0 z-40 transition-transform duration-300 transform lg:translate-x-0 lg:static lg:z-auto no-print
           ${isOpen ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full'}
         `}
       >

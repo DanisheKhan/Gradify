@@ -10,34 +10,34 @@ export const PageWrapper = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.2, ease: 'easeOut' }}
-      className={`space-y-6 ${className}`}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.18, ease: 'easeOut' }}
+      className={`space-y-5 ${className}`}
     >
       {(title || subtitle || actions) && (
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 select-none no-print">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 select-none no-print">
           <div>
             {title && (
-              <h1 className="text-xl font-bold text-neutral-800 sm:text-2xl tracking-tight">
+              <h1 className="text-lg font-semibold text-neutral-900 tracking-tight">
                 {title}
               </h1>
             )}
             {subtitle && (
-              <p className="text-xs text-neutral-500 mt-1 sm:text-sm">
+              <p className="text-xs text-neutral-400 mt-0.5">
                 {subtitle}
               </p>
             )}
           </div>
           {actions && (
-            <div className="flex items-center gap-2 self-start sm:self-auto">
+            <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
               {actions}
             </div>
           )}
         </div>
       )}
-      <div className="w-full">{children}</div>
+      <div className="w-full space-y-5">{children}</div>
     </motion.div>
   );
 };

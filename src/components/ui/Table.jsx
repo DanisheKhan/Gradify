@@ -9,24 +9,24 @@ export const Table = ({
   className = '',
 }) => {
   return (
-    <div className={`w-full overflow-x-auto border border-neutral-200 rounded-xl bg-white shadow-xs ${className}`}>
+    <div className={`w-full overflow-x-auto border border-neutral-200 rounded-xl bg-white ${className}`}>
       <table className="w-full text-start border-collapse">
         <thead>
-          <tr className="bg-neutral-50 border-b border-neutral-200">
+          <tr className="border-b border-neutral-100">
             {headers.map((header, idx) => (
               <th
                 key={idx}
-                className="px-5 py-3.5 text-start text-xs font-bold text-neutral-600 uppercase tracking-wider select-none"
+                className="px-4 py-3 text-start text-[11px] font-semibold text-neutral-500 uppercase tracking-wider select-none bg-neutral-50/70"
               >
                 {header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-neutral-150">
+        <tbody className="divide-y divide-neutral-100">
           {loading ? (
             <tr>
-              <td colSpan={headers.length} className="px-5 py-10 text-center">
+              <td colSpan={headers.length} className="px-4 py-12 text-center">
                 <Spinner size="md" />
               </td>
             </tr>
@@ -34,7 +34,7 @@ export const Table = ({
             <tr>
               <td
                 colSpan={headers.length}
-                className="px-5 py-10 text-center text-sm text-neutral-400 select-none"
+                className="px-4 py-12 text-center text-sm text-neutral-400 select-none"
               >
                 {emptyMessage}
               </td>
@@ -52,8 +52,8 @@ export const TableRow = ({ children, className = '', onClick }) => (
   <tr
     onClick={onClick}
     className={`
-      hover:bg-neutral-50/50 transition-colors duration-150
-      ${onClick ? 'cursor-pointer' : ''}
+      transition-colors duration-100
+      ${onClick ? 'cursor-pointer hover:bg-neutral-50' : 'hover:bg-neutral-50/60'}
       ${className}
     `}
   >
@@ -62,7 +62,7 @@ export const TableRow = ({ children, className = '', onClick }) => (
 );
 
 export const TableCell = ({ children, className = '' }) => (
-  <td className={`px-5 py-3.5 text-sm text-neutral-700 whitespace-nowrap align-middle ${className}`}>
+  <td className={`px-4 py-3 text-sm text-neutral-700 whitespace-nowrap align-middle ${className}`}>
     {children}
   </td>
 );

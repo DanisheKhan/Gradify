@@ -16,10 +16,10 @@ export const Select = forwardRef(({
       {label && (
         <label
           htmlFor={id}
-          className="text-xs font-semibold text-neutral-700 flex items-center gap-1 select-none"
+          className="text-xs font-medium text-neutral-700 flex items-center gap-1 select-none"
         >
           {label}
-          {required && <span className="text-red-500">*</span>}
+          {required && <span className="text-danger-500">*</span>}
         </label>
       )}
       <select
@@ -27,13 +27,13 @@ export const Select = forwardRef(({
         id={id}
         required={required}
         className={`
-          w-full px-3.5 py-2 text-sm bg-white border rounded-lg transition-all duration-150 outline-hidden
-          focus:border-primary-600 focus:ring-1 focus:ring-primary-600
-          ${error 
-            ? 'border-red-300 focus:border-red-500 focus:ring-red-500 bg-red-50/10' 
+          w-full h-9 px-3.5 py-0 text-sm bg-white border rounded-lg transition-colors duration-150 outline-hidden
+          focus:border-primary-500 focus:ring-2 focus:ring-primary-500/15
+          disabled:bg-neutral-50 disabled:text-neutral-400 disabled:cursor-not-allowed
+          ${error
+            ? 'border-danger-400 focus:border-danger-500 focus:ring-danger-500/15'
             : 'border-neutral-300 hover:border-neutral-400 text-neutral-800'
           }
-          disabled:bg-neutral-100 disabled:text-neutral-500 disabled:cursor-not-allowed
         `}
         {...props}
       >
@@ -45,10 +45,10 @@ export const Select = forwardRef(({
         ))}
       </select>
       {error && (
-        <span className="text-xs text-red-600 mt-0.5 font-medium">{error}</span>
+        <span className="text-xs text-danger-600 font-medium">{error}</span>
       )}
       {!error && helperText && (
-        <span className="text-xs text-neutral-500 mt-0.5">{helperText}</span>
+        <span className="text-xs text-neutral-400">{helperText}</span>
       )}
     </div>
   );

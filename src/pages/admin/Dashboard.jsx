@@ -129,7 +129,7 @@ export const Dashboard = () => {
     loadData();
   }, [getStudents, getExams, getMarksByExamAndClass, getSubjects]);
 
-  const COLORS = ['#3B5BDB', '#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#6B7280'];
+  const COLORS = ['#4353e8', '#7c8df2', '#a1b0f7', '#c3cdfb', '#dce3fd', '#d1d1d6'];
 
   if (loading) return <Spinner fullPage />;
 
@@ -150,96 +150,71 @@ export const Dashboard = () => {
       }
     >
       {/* Statistics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <Card className="border-s-4 border-s-primary-600">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider select-none">
-                {t('admin.dashboard.total_students')}
-              </p>
-              <h3 className="text-2xl font-black text-neutral-800 mt-1 select-none">
-                {stats.totalStudents}
-              </h3>
-            </div>
-            <div className="p-3 bg-primary-50 rounded-xl text-primary-600">
-              <Users className="w-6 h-6" />
-            </div>
-          </div>
-        </Card>
-
-        <Card className="border-s-4 border-s-indigo-600">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider select-none">
-                {t('admin.dashboard.total_exams')}
-              </p>
-              <h3 className="text-2xl font-black text-neutral-800 mt-1 select-none">
-                {stats.totalExams}
-              </h3>
-            </div>
-            <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600">
-              <ClipboardList className="w-6 h-6" />
-            </div>
-          </div>
-        </Card>
-
-        <Card className="border-s-4 border-s-blue-600">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider select-none">
-                {t('nav.subjects')}
-              </p>
-              <h3 className="text-2xl font-black text-neutral-800 mt-1 select-none">
-                {stats.totalSubjects}
-              </h3>
-            </div>
-            <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
-              <BookOpen className="w-6 h-6" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          {
+            label: t('admin.dashboard.total_students'),
+            value: stats.totalStudents,
+            icon: <Users className="w-4.5 h-4.5" />,
+          },
+          {
+            label: t('admin.dashboard.total_exams'),
+            value: stats.totalExams,
+            icon: <ClipboardList className="w-4.5 h-4.5" />,
+          },
+          {
+            label: t('nav.subjects'),
+            value: stats.totalSubjects,
+            icon: <BookOpen className="w-4.5 h-4.5" />,
+          },
+          {
+            label: t('admin.dashboard.pass_rate'),
+            value: `${stats.passRate}%`,
+            icon: <TrendingUp className="w-4.5 h-4.5" />,
+          },
+        ].map((stat) => (
+          <div key={stat.label} className="bg-white border border-neutral-200 rounded-xl p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider leading-none select-none">
+                  {stat.label}
+                </p>
+                <p className="text-2xl font-semibold text-neutral-900 mt-2 leading-none select-none tabular-nums">
+                  {stat.value}
+                </p>
+              </div>
+              <div className="p-2 bg-neutral-100 rounded-lg text-neutral-500 shrink-0">
+                {stat.icon}
+              </div>
             </div>
           </div>
-        </Card>
-
-        <Card className="border-s-4 border-s-emerald-600">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-bold text-neutral-500 uppercase tracking-wider select-none">
-                {t('admin.dashboard.pass_rate')}
-              </p>
-              <h3 className="text-2xl font-black text-neutral-800 mt-1 select-none">
-                {stats.passRate}%
-              </h3>
-            </div>
-            <div className="p-3 bg-emerald-50 rounded-xl text-emerald-600">
-              <TrendingUp className="w-6 h-6" />
-            </div>
-          </div>
-        </Card>
+        ))}
       </div>
 
       {/* Quick Action & Operations Bar */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card title={t('admin.dashboard.quick_actions')} className="md:col-span-1">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2">
             <Button
               variant="primary"
-              className="w-full text-start py-2.5 justify-start"
-              icon={<Users className="w-4.5 h-4.5" />}
+              className="w-full justify-start"
+              icon={<Users className="w-4 h-4" />}
               onClick={() => navigate('/admin/students')}
             >
               {t('admin.dashboard.add_student')}
             </Button>
             <Button
               variant="outline"
-              className="w-full text-start py-2.5 justify-start"
-              icon={<ClipboardList className="w-4.5 h-4.5" />}
+              className="w-full justify-start"
+              icon={<ClipboardList className="w-4 h-4" />}
               onClick={() => navigate('/admin/marks')}
             >
               {t('admin.dashboard.enter_marks')}
             </Button>
             <Button
               variant="secondary"
-              className="w-full text-start py-2.5 justify-start bg-neutral-100 hover:bg-neutral-200"
-              icon={<GraduationCap className="w-4.5 h-4.5" />}
+              className="w-full justify-start"
+              icon={<GraduationCap className="w-4 h-4" />}
               onClick={() => navigate('/admin/results')}
             >
               {t('admin.dashboard.view_results')}
@@ -286,8 +261,8 @@ export const Dashboard = () => {
               <YAxis allowDecimals={false} />
               <Tooltip />
               <Legend />
-              <Bar dataKey="Pass" fill="#10B981" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="Fail" fill="#EF4444" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Pass" fill="#16a34a" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Fail" fill="#e11d48" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

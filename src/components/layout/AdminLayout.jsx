@@ -19,7 +19,7 @@ export const AdminLayout = () => {
         <Navbar onMenuClick={toggleSidebar} />
         
         <main className="flex-1 overflow-y-auto focus:outline-hidden">
-          <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+          <div className="max-w-7xl mx-auto p-5 sm:p-6 lg:p-8">
             <Outlet />
           </div>
         </main>

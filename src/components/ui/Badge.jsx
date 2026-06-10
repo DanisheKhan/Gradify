@@ -6,17 +6,17 @@ export const Badge = ({
   className = '',
 }) => {
   const variants = {
-    success: 'bg-emerald-50 text-emerald-700 border-emerald-200/50',
-    warning: 'bg-amber-50 text-amber-700 border-amber-200/50',
-    danger: 'bg-rose-50 text-rose-700 border-rose-200/50',
-    info: 'bg-blue-50 text-blue-700 border-blue-200/50',
-    neutral: 'bg-neutral-100 text-neutral-600 border-neutral-250',
+    success: 'bg-success-50 text-success-700 ring-1 ring-success-100',
+    warning: 'bg-warning-50 text-warning-600 ring-1 ring-warning-100',
+    danger:  'bg-danger-50 text-danger-600 ring-1 ring-danger-100',
+    info:    'bg-primary-50 text-primary-700 ring-1 ring-primary-100',
+    neutral: 'bg-neutral-100 text-neutral-600 ring-1 ring-neutral-150',
   };
 
   return (
     <span
       className={`
-        inline-flex items-center px-2 py-0.5 text-xs font-semibold rounded-md border tracking-wide select-none
+        inline-flex items-center px-2 py-0.5 text-[11px] font-semibold rounded-md tracking-wide select-none
         ${variants[variant]}
         ${className}
       `}
